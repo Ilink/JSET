@@ -3,7 +3,7 @@ JSET.js
 A group of unique values, hashed for speed and convenience. This allows for easy set operations, like Intersection.
 Using a set is a little more complicated than an array, but it helps ensure the invariants are respected.
 
-There is a tradeoff for speed using this design, though I have not tested how much speed.
+Lookups should be very quick, although probably not quite as fast as an ordinary hash. Typical memory tradeoffs between hashes and arrays also come into play.
 
 The underlying structure looks like this:
 
@@ -13,7 +13,7 @@ The underlying structure looks like this:
         "3": 1
     }
 
-The "1"s are just placeholder values. There may be a more efficient way of doing this.
+The "1"s are just placeholder values - they are never read themselves.
  */
 
 function Set(){
@@ -46,5 +46,15 @@ function Set(){
      */
     this.insert = function(){
         _add(arguments);
+    }
+
+    /*
+    @function remove
+    Accepts any number of arguments. Removes values from the set.
+     */
+    this.remove = function(){
+        $.each(arguments, function(i, arg){
+           delete set[arg]
+        });
     }
 }
