@@ -48,6 +48,14 @@ function Set(){
         _add(arguments);
     }
 
+    this.intersection = function(a, b){
+        $.each(a, function(i, val){
+            if(typeof a[val] !== 'undefined') {
+
+            }
+        });
+    }
+
     /*
     @function remove
     Accepts any number of arguments. Removes values from the set.
