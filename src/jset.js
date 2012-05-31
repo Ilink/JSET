@@ -26,7 +26,8 @@ function Set(){
     Maintains the invariant that set values must be unique.
      */
     function _add(){
-        $.each(arguments, function(i, arg){
+        var args = Array.prototype.slice.call(arguments);
+        $.each(args, function(i, arg){
             var val = set[arg]
             if(typeof val === 'undefined'){
                 set[arg] = 1;
@@ -48,10 +49,15 @@ function Set(){
         _add(arguments);
     }
 
+    /*
+    @function intersection
+    Accepts two sets and finds the intersection.
+     */
     this.intersection = function(a, b){
+        var c = [];
         $.each(a, function(i, val){
-            if(typeof a[val] !== 'undefined') {
-
+            if(typeof b[i] !== 'undefined') {
+                c.push(val);
             }
         });
     }
