@@ -14,6 +14,8 @@ The underlying structure looks like this:
     }
 
 The "1"s are just placeholder values - they are never read themselves.
+
+Note that this assumes you are only using sets of numbers. Sets of strings are not supported at the moment, for simplicity's sake.
  */
 
 function Set(){
@@ -39,27 +41,48 @@ function Set(){
     @Constructor
     Accepts any number of arguments, inserts them into set
      */
-    _add(arguments);
+    _add.apply(this, arguments);
 
     /*
-    @function insert
+    @function add
     Accepts any number of arguments. Public alias for _add
      */
-    this.insert = function(){
-        _add(arguments);
+    this.add = function(){
+        _add.apply(this, arguments);
+    }
+
+    /*
+     @function push
+     Alias for add
+     */
+    this.push = function(){
+        _add.apply(this, arguments);
+    }
+
+    /*
+    @function to_arr
+    Returns an array representation of the set.
+     */
+    this.to_arr = function(){
+        var arr = [];
+        $.each(set, function(i, v){
+            arr.push(Number(i));
+        });
+        return arr;
     }
 
     /*
     @function intersection
-    Accepts two sets and finds the intersection.
+    Accepts two sets and finds the intersection. Returns a set of the values in common.
      */
     this.intersection = function(a, b){
-        var c = [];
+        var set = new Set();
         $.each(a, function(i, val){
             if(typeof b[i] !== 'undefined') {
-                c.push(val);
+                set.add(val);
             }
         });
+        return set
     }
 
     /*
@@ -67,7 +90,8 @@ function Set(){
     Accepts any number of arguments. Removes values from the set.
      */
     this.remove = function(){
-        $.each(arguments, function(i, arg){
+        var args = Array.prototype.slice.call(arguments);
+        $.each(args, function(i, arg){
            delete set[arg]
         });
     }
